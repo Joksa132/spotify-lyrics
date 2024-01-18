@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Spotify Lyrics",
+  "description": "Spotify Lyrics",
+  "version": "1.0",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "./assets/spotify-icon.png",
+    "32": "./assets/spotify-icon.png",
+    "48": "./assets/spotify-icon.png"
+  }
+}
