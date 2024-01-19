@@ -22,24 +22,51 @@ function getSongInfo() {
   };
 }
 
+async function getSongLyrics() {
+  const songInfo = getSongInfo();
+  const response = await fetch(
+    `https://api.lyrics.ovh/v1/${songInfo.songArtists[0]}/${songInfo.songName}`
+  );
+
+  const songLyrics = await response.json();
+  return songLyrics.lyrics;
+}
+
 function createModal() {
   const modal = document.createElement("div");
   modal.id = "spotify-lyrics-modal";
-  modal.setAttribute(
-    "style",
-    "display: flex; position: fixed; top: 0; right: 0; background: #1A1A1A; z-index: 999; padding: 10px; overflow-y: auto; height: calc(100vh - 120px); border-radius: 5px; width: 35%"
-  );
+
   modalExists = true;
   document.body.appendChild(modal);
   modalSelector = modal;
+  handleLyrics();
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+async function handleLyrics() {
+  try {
+    const lyrics = await getSongLyrics();
+    if (lyrics) {
+      const lines = lyrics.split("\n");
+      const modifiedLyrics = lines.slice(1).join("\n");
+      modalSelector.innerHTML = `<pre>${modifiedLyrics}</pre>`;
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    console.error("Error fetching lyrics:", error);
+    modalSelector.innerHTML = "Error fetching lyrics";
+  }
+}
+
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   if (request.message === "CLICKED") {
     if (modalExists) {
-      request.isOpened
-        ? (modalSelector.style.display = "none")
-        : (modalSelector.style.display = "flex");
+      if (request.isOpened) {
+        modalSelector.classList.remove("lyrics-modal-open");
+      } else {
+        modalSelector.classList.add("lyrics-modal-open");
+        handleLyrics();
+      }
     } else {
       createModal();
     }
