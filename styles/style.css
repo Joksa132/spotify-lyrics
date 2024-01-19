@@ -1,0 +1,24 @@
+#spotify-lyrics-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #1a1a1a;
+  z-index: 999;
+  padding: 15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 120px);
+  border-radius: 5px;
+  width: 700px;
+  font-size: 17px;
+}
+
+#spotify-lyrics-modal pre {
+  height: 100%;
+  width: 100%;
+}
+
+.lyrics-modal-open {
+  display: flex !important;
+}
