@@ -8,9 +8,9 @@
   padding: 15px;
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100vh - 120px);
+  max-height: calc(100vh - 120px);
   border-radius: 5px;
-  width: 700px;
+  width: 750px;
   font-size: 17px;
 }
 
