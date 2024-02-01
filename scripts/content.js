@@ -38,8 +38,18 @@ function createModal() {
 
   modalExists = true;
   document.body.appendChild(modal);
+
   modalSelector = modal;
-  handleLyrics();
+}
+
+function createCloseButton() {
+  const closeButton = document.createElement("button");
+  closeButton.className = "close-button";
+  closeButton.innerHTML = "X";
+  closeButton.addEventListener("click", () => {
+    modalSelector.classList.remove("lyrics-modal-open");
+  });
+  modalSelector.appendChild(closeButton);
 }
 
 async function handleLyrics() {
@@ -48,13 +58,23 @@ async function handleLyrics() {
     if (lyrics) {
       const lines = lyrics.split("\n");
       const modifiedLyrics = lines.slice(1).join("\n");
-      modalSelector.innerHTML = `<pre>${modifiedLyrics}</pre>`;
+      modalSelector.innerHTML = "";
+
+      const preElement = document.createElement("pre");
+      preElement.textContent = modifiedLyrics;
+      modalSelector.appendChild(preElement);
+      createCloseButton();
     } else {
       throw new Error();
     }
   } catch (error) {
     console.error("Error fetching lyrics:", error);
-    modalSelector.innerHTML = "Error fetching lyrics";
+    modalSelector.innerHTML = "";
+
+    const errElement = document.createElement("span");
+    errElement.textContent = "Error fetching lyrics";
+    modalSelector.appendChild(errElement);
+    createCloseButton();
   }
 }
 
