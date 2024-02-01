@@ -10,8 +10,9 @@
   overflow-x: hidden;
   max-height: calc(100vh - 120px);
   border-radius: 5px;
-  width: 750px;
-  font-size: 17px;
+  max-width: 1000px;
+  min-width: 400px;
+  font-size: 1rem;
 }
 
 #spotify-lyrics-modal pre {
