@@ -2,6 +2,40 @@ console.log("Content script loaded");
 
 let modalSelector;
 let modalExists = false;
+const buttonContainer = document.createElement("div");
+buttonContainer.className = "button-container";
+
+function createModal() {
+  const modal = document.createElement("div");
+  modal.id = "spotify-lyrics-modal";
+
+  modalExists = true;
+  document.body.appendChild(modal);
+
+  modalSelector = modal;
+}
+
+function createCloseButton() {
+  const buttonContainer = document.querySelector(".button-container");
+  const closeButton = document.createElement("button");
+  closeButton.className = "close-button";
+  closeButton.innerHTML = "X";
+  closeButton.addEventListener("click", () => {
+    modalSelector.classList.remove("lyrics-modal-open");
+  });
+  buttonContainer.appendChild(closeButton);
+}
+
+function createUpdateButton() {
+  const buttonContainer = document.querySelector(".button-container");
+  const updateButton = document.createElement("button");
+  updateButton.className = "update-button";
+  updateButton.innerHTML = "Update";
+  updateButton.addEventListener("click", () => {
+    handleLyrics();
+  });
+  buttonContainer.appendChild(updateButton);
+}
 
 function getSongInfo() {
   const songNameElement = document.querySelector(
@@ -32,26 +66,6 @@ async function getSongLyrics() {
   return songLyrics.lyrics;
 }
 
-function createModal() {
-  const modal = document.createElement("div");
-  modal.id = "spotify-lyrics-modal";
-
-  modalExists = true;
-  document.body.appendChild(modal);
-
-  modalSelector = modal;
-}
-
-function createCloseButton() {
-  const closeButton = document.createElement("button");
-  closeButton.className = "close-button";
-  closeButton.innerHTML = "X";
-  closeButton.addEventListener("click", () => {
-    modalSelector.classList.remove("lyrics-modal-open");
-  });
-  modalSelector.appendChild(closeButton);
-}
-
 async function handleLyrics() {
   try {
     const lyrics = await getSongLyrics();
@@ -63,6 +77,11 @@ async function handleLyrics() {
       const preElement = document.createElement("pre");
       preElement.textContent = modifiedLyrics;
       modalSelector.appendChild(preElement);
+      modalSelector.appendChild(buttonContainer);
+
+      buttonContainer.innerHTML = "";
+
+      createUpdateButton();
       createCloseButton();
     } else {
       throw new Error();
@@ -74,6 +93,11 @@ async function handleLyrics() {
     const errElement = document.createElement("span");
     errElement.textContent = "Error fetching lyrics";
     modalSelector.appendChild(errElement);
+    modalSelector.appendChild(buttonContainer);
+
+    buttonContainer.innerHTML = "";
+
+    createUpdateButton();
     createCloseButton();
   }
 }
