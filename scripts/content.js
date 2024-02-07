@@ -2,8 +2,6 @@ console.log("Content script loaded");
 
 let modalSelector;
 let modalExists = false;
-const buttonContainer = document.createElement("div");
-buttonContainer.className = "button-container";
 
 function createModal() {
   const modal = document.createElement("div");
@@ -15,23 +13,14 @@ function createModal() {
   modalSelector = modal;
 }
 
-function createButton(buttonType) {
-  const buttonContainer = document.querySelector(".button-container");
+function createCloseButton() {
   const button = document.createElement("button");
-  if (buttonType === "close") {
-    button.className = "close-button";
-    button.innerHTML = "X";
-    button.addEventListener("click", () => {
-      modalSelector.classList.remove("lyrics-modal-open");
-    });
-  } else if (buttonType === "update") {
-    button.className = "update-button";
-    button.innerHTML = "Update";
-    button.addEventListener("click", () => {
-      handleLyrics();
-    });
-  }
-  buttonContainer.appendChild(button);
+  button.className = "close-button";
+  button.innerHTML = "X";
+  button.addEventListener("click", () => {
+    modalSelector.classList.remove("lyrics-modal-open");
+  });
+  modalSelector.appendChild(button);
 }
 
 function getSongInfo() {
@@ -74,12 +63,8 @@ async function handleLyrics() {
       const preElement = document.createElement("pre");
       preElement.textContent = modifiedLyrics;
       modalSelector.appendChild(preElement);
-      modalSelector.appendChild(buttonContainer);
 
-      buttonContainer.innerHTML = "";
-
-      createButton("update");
-      createButton("close");
+      createCloseButton();
     } else {
       throw new Error();
     }
@@ -90,12 +75,8 @@ async function handleLyrics() {
     const errElement = document.createElement("span");
     errElement.textContent = "Error fetching lyrics";
     modalSelector.appendChild(errElement);
-    modalSelector.appendChild(buttonContainer);
 
-    buttonContainer.innerHTML = "";
-
-    createButton("update");
-    createButton("close");
+    createCloseButton();
   }
 }
 
