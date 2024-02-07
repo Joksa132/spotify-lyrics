@@ -25,30 +25,14 @@
   flex-direction: column;
 }
 
-.button-container {
+.close-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  display: flex;
-  gap: 15px;
-  max-width: 200px;
-  align-items: center;
-  justify-content: center;
-}
-
-.button-container button {
-  background: inherit;
-  cursor: pointer;
-  border: none;
-}
-
-.close-button {
   color: red;
   font-weight: bolder;
   font-size: 20px;
-}
-
-.update-button {
-  color: white;
-  font-size: 16px;
+  background: inherit;
+  cursor: pointer;
+  border: none;
 }
