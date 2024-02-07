@@ -15,26 +15,23 @@ function createModal() {
   modalSelector = modal;
 }
 
-function createCloseButton() {
+function createButton(buttonType) {
   const buttonContainer = document.querySelector(".button-container");
-  const closeButton = document.createElement("button");
-  closeButton.className = "close-button";
-  closeButton.innerHTML = "X";
-  closeButton.addEventListener("click", () => {
-    modalSelector.classList.remove("lyrics-modal-open");
-  });
-  buttonContainer.appendChild(closeButton);
-}
-
-function createUpdateButton() {
-  const buttonContainer = document.querySelector(".button-container");
-  const updateButton = document.createElement("button");
-  updateButton.className = "update-button";
-  updateButton.innerHTML = "Update";
-  updateButton.addEventListener("click", () => {
-    handleLyrics();
-  });
-  buttonContainer.appendChild(updateButton);
+  const button = document.createElement("button");
+  if (buttonType === "close") {
+    button.className = "close-button";
+    button.innerHTML = "X";
+    button.addEventListener("click", () => {
+      modalSelector.classList.remove("lyrics-modal-open");
+    });
+  } else if (buttonType === "update") {
+    button.className = "update-button";
+    button.innerHTML = "Update";
+    button.addEventListener("click", () => {
+      handleLyrics();
+    });
+  }
+  buttonContainer.appendChild(button);
 }
 
 function getSongInfo() {
@@ -81,8 +78,8 @@ async function handleLyrics() {
 
       buttonContainer.innerHTML = "";
 
-      createUpdateButton();
-      createCloseButton();
+      createButton("update");
+      createButton("close");
     } else {
       throw new Error();
     }
@@ -97,8 +94,8 @@ async function handleLyrics() {
 
     buttonContainer.innerHTML = "";
 
-    createUpdateButton();
-    createCloseButton();
+    createButton("update");
+    createButton("close");
   }
 }
 
