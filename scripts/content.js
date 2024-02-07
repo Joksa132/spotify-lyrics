@@ -113,3 +113,20 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     }
   }
 });
+
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    const songNameElement = document.querySelector(
+      "[data-testid='context-item-link']"
+    );
+
+    if (mutation.target.contains(songNameElement)) {
+      handleLyrics();
+    }
+  });
+});
+
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+});
