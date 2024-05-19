@@ -15,3 +15,8 @@ An extension used for providing lyrics for songs on spotify. Done as a small fun
 3. Press `Load unpacked` and select the cloned folder.
 4. Activate the extension.
 5. Open [Spotify Web Player](https://open.spotify.com/) and click on the extension.
+
+## Issues
+
+1. Mouse over some spotify elements may increase space between lines in the lyrics window
+2. Plenty of songs' lyrics are not supported (api issue)
